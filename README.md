@@ -1,6 +1,12 @@
 # CS149 GPU & AI Systems Lab
 
-An evidence-first, hands-on companion to Stanford CS149. The aim is not to collect APIs or finish a large project quickly. It is to develop reliable intuition about parallel execution, GPU performance, and distributed AI infrastructure on a real NVIDIA T4 machine.
+An evidence-first, hands-on companion to Stanford CS149. The aim is to develop
+reliable intuition about parallel execution, GPU performance, and distributed
+AI infrastructure through small measurements on a real NVIDIA Tesla T4—not to
+collect APIs, reproduce complete course notes, or build a large framework.
+
+This is an independent learning repository. It is not affiliated with Stanford
+and does not contain assignment solutions.
 
 ## The end state
 
@@ -13,13 +19,30 @@ By the end of the course, this repository should contain a small, reproducible b
 - connect a single-GPU observation to production AI concerns: placement, isolation, utilization, communication, and distributed training; and
 - explain the trade-offs in my own words, with the code and evidence to support it.
 
-Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows [the experiment protocol](docs/experiment-protocol.md) and is recorded with [the experiment template](templates/experiment.md).
+Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows
+[the experiment protocol](docs/experiment-protocol.md) and is recorded with
+[the experiment template](templates/experiment.md).
+
+## Current progress
+
+| Item | Status | Record |
+| --- | --- | --- |
+| Lecture 1 — Why Parallelism? Why Efficiency? | Reviewed | [Working notes](docs/lecture-01.md) |
+| Experiment 00 — Machine baseline | Complete | [Experiment](experiments/00_machine-baseline/README.md) · [Raw evidence](results/00_machine-baseline/2026-08-19-rerun.md) |
+| GPU Python environment | Validated on the host T4 | [Environment record](docs/environment.md) |
+| Next step | Lecture 2 — A Modern Multi-Core Processor (Part I) | Derive Experiment 01 after the lecture |
 
 ## Reproduce the GPU Python environment
 
-The lab uses a project-local virtual environment. The environment directory is
-disposable and ignored by Git; the committed requirements file is the
-reproducible input.
+The tested host uses Python 3.12, Linux x86_64, an NVIDIA Tesla T4, and driver
+580.173.02. First confirm that the intended execution context can see an idle
+GPU:
+
+```bash
+nvidia-smi
+```
+
+Then recreate the project-local virtual environment:
 
 ```bash
 python3 -m venv .venv
@@ -27,11 +50,18 @@ python3 -m venv .venv
 .venv/bin/python scripts/collect_environment.py
 ```
 
-`requirements-gpu-cu124.txt` pins the CUDA 12.4 PyTorch build validated on the
-Tesla T4 during Experiment 00. The `cu124` label describes the CUDA runtime
-bundled with the PyTorch wheel, not the maximum CUDA version reported by the
-host driver. A different accelerator or driver environment may require a
-different requirements file.
+The environment directory is disposable and ignored by Git; the committed
+[`requirements-gpu-cu124.txt`](requirements-gpu-cu124.txt) is the reproducible
+input. It pins the CUDA 12.4 PyTorch build validated during Experiment 00. The
+`cu124` label describes the CUDA runtime bundled with the PyTorch wheel, not the
+maximum CUDA version reported by the host driver.
+
+Recreating the Python packages does not guarantee GPU access. The destination
+also needs a compatible NVIDIA driver and must expose the GPU device to the
+process. A container or sandbox can load the same PyTorch package while
+reporting `cuda available: False` if the device is not passed through. A
+different accelerator or driver environment may require a different
+requirements file.
 
 ## Repository map
 
@@ -40,22 +70,36 @@ docs/          Learning contract, roadmap, and environment notes
 experiments/   One small, independent experiment per directory
 templates/     Copyable templates for experiments and results
 scripts/       Small reproducibility helpers (not a framework)
-    results/       Raw measurements and selected evidence; large generated artifacts are ignored
+results/       Raw measurements and selected evidence
 ```
+
+Small textual evidence under `results/` may be committed. Large profiler
+exports, databases, and other generated artifacts are ignored.
 
 ## Working agreement
 
-For every experiment, begin by writing a question and a prediction. **Hard rule: one experiment answers one question, has one controlled change, and stays within a 30–60 minute timebox.** Prefer a correct serial baseline, then one controlled change, then a measurement. If a new tool, abstraction, or optimization becomes tempting, record it as the next experiment instead of expanding the current one. A surprising result is a prompt to investigate—not a failure.
+For every experiment, begin by writing a question and a prediction. **Hard
+rule: one experiment answers one question, has one controlled change, and stays
+within a 30–60 minute timebox.** Prefer a correct baseline, then one controlled
+change, then a measurement. If a new tool, abstraction, or optimization becomes
+tempting, record it as a later experiment instead of expanding the current one.
+A surprising result is a prompt to investigate—not a failure.
 
 Do not read or paste full assignment solutions. This lab is for your implementations, measurements, and explanations.
 
-## First session
+## Learning cycle
 
-1. Read `docs/course-roadmap.md`.
-2. Use `templates/experiment.md` to expand the existing `experiments/00_machine-baseline/README.md`; retain its starting prompt.
-3. Complete only the **Question**, **Hypothesis**, **Prediction**, and **What would change my mind?** sections.
-4. Run `python3 scripts/collect_environment.py` and attach its output to the experiment notes.
-5. Stop and interpret the inventory before doing any optimization.
+1. Study the next course concept and capture one understood point, one unclear
+   point, and one infrastructure connection.
+2. Turn one of those points into a precise experimental question.
+3. Record the hypothesis, prediction, and what would change your mind before
+   implementation.
+4. Build the smallest correct baseline and make one controlled change.
+5. Measure, preserve surprising results, and run only the smallest
+   discriminating check needed to interpret them.
+6. Write the final takeaway in your own words, add the Production / AI
+   Infrastructure Connection, and record one follow-up question.
+7. Commit when the code, evidence, and explanation tell a coherent story.
 
 ## Suggested conventions
 
