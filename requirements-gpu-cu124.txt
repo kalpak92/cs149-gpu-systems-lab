@@ -1,0 +1,6 @@
+# Reproduce the CUDA-enabled PyTorch baseline validated in Experiment 00.
+--index-url https://download.pytorch.org/whl/cu124
+
+# Explicit because PyTorch treats NumPy interoperability as optional.
+numpy==2.5.2
+torch==2.6.0

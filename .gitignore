@@ -1,0 +1,11 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+results/*
+!results/**/
+!results/**/*.md
+*.nsys-rep
+*.ncu-rep
+*.sqlite
+*.jsonl
