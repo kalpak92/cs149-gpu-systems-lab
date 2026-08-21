@@ -55,6 +55,12 @@ framework's CUDA build. Passing one layer does not prove that the next layer is
 usable. An idle GPU reading provides the baseline against which workload
 behavior can be compared.
 
+![Flowchart showing the independently required layers between GPU presence and a correct PyTorch CUDA workload](../../docs/assets/experiment-00-gpu-usability-flow.png)
+
+*Observed facts from this machine are separated from their interpretation:
+GPU presence does not by itself establish driver usability, process-level
+device exposure, framework availability, or workload correctness.*
+
 ## 3. Hypothesis and prediction
 
 - **Hypothesis:** The host has a usable NVIDIA GPU, but system Python cannot
