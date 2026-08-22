@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Superscalar, SIMD, and multi-core parallelism</title>
+  <desc id="desc">Three panels compare multiple independent instructions from one stream, one instruction applied across multiple data elements, and multiple instruction streams running on separate cores. A final row shows that all three mechanisms can coexist.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" class="arrowhead"/>
+    </marker>
+    <style>
+      .background { fill: #ffffff; }
+      .panel { fill: #f7f8fa; stroke: #cbd2dc; stroke-width: 2; }
+      .structure { fill: #ffffff; stroke: #98a3b3; stroke-width: 2; }
+      .blue { fill: #e4f0fb; stroke: #1965b0; stroke-width: 2; }
+      .purple { fill: #f0e8f8; stroke: #784caa; stroke-width: 2; }
+      .green { fill: #e5f4ed; stroke: #237e5c; stroke-width: 2; }
+      .wire { fill: none; stroke: #5b6370; stroke-width: 2.5; marker-end: url(#arrow); }
+      .arrowhead { fill: #5b6370; }
+      text { fill: #1a1c1f; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .title { font-size: 30px; font-weight: 600; }
+      .subtitle { fill: #5b6370; font-size: 17px; }
+      .heading { font-size: 21px; font-weight: 600; }
+      .label { font-size: 16px; font-weight: 600; }
+      .body { font-size: 15px; }
+      .small { fill: #5b6370; font-size: 14px; }
+      .summary { font-size: 17px; font-weight: 600; }
+      @media (prefers-color-scheme: dark) {
+        .background { fill: #181818; }
+        .panel { fill: #25272b; stroke: #4d535d; }
+        .structure { fill: #303339; stroke: #697281; }
+        .blue { fill: #173c5e; stroke: #79b9ff; }
+        .purple { fill: #3c2852; stroke: #c299ff; }
+        .green { fill: #173f32; stroke: #63d3a5; }
+        .wire { stroke: #b5bbc5; }
+        .arrowhead { fill: #b5bbc5; }
+        text { fill: #f5f7fa; }
+        .subtitle, .small { fill: #b5bbc5; }
+      }
+    </style>
+  </defs>
+
+  <rect class="background" width="1200" height="720"/>
+  <text x="600" y="48" text-anchor="middle" class="title">Three sources of parallel execution</text>
+  <text x="600" y="78" text-anchor="middle" class="subtitle">Each mechanism multiplies a different kind of work</text>
+
+  <rect x="28" y="106" width="362" height="430" rx="14" class="panel"/>
+  <text x="209" y="142" text-anchor="middle" class="heading">Superscalar</text>
+  <text x="209" y="167" text-anchor="middle" class="small">one instruction stream</text>
+
+  <rect x="54" y="192" width="126" height="214" rx="9" class="blue"/>
+  <text x="117" y="220" text-anchor="middle" class="label">Stream</text>
+  <rect x="76" y="240" width="82" height="34" rx="6" class="structure"/>
+  <text x="117" y="262" text-anchor="middle" class="body">I1: load</text>
+  <rect x="76" y="286" width="82" height="34" rx="6" class="structure"/>
+  <text x="117" y="308" text-anchor="middle" class="body">I2: add</text>
+  <rect x="76" y="332" width="82" height="34" rx="6" class="structure"/>
+  <text x="117" y="354" text-anchor="middle" class="body">I3: mul</text>
+
+  <path d="M180 284 C222 284 218 239 260 239" class="wire"/>
+  <path d="M180 318 C222 318 218 351 260 351" class="wire"/>
+  <rect x="264" y="206" width="98" height="66" rx="8" class="structure"/>
+  <text x="313" y="234" text-anchor="middle" class="label">Unit 0</text>
+  <text x="313" y="255" text-anchor="middle" class="small">I2</text>
+  <rect x="264" y="318" width="98" height="66" rx="8" class="structure"/>
+  <text x="313" y="346" text-anchor="middle" class="label">Unit 1</text>
+  <text x="313" y="367" text-anchor="middle" class="small">I3</text>
+  <text x="209" y="448" text-anchor="middle" class="summary">different independent instructions</text>
+  <text x="209" y="474" text-anchor="middle" class="body">Hardware finds instruction-level</text>
+  <text x="209" y="495" text-anchor="middle" class="body">parallelism within the stream.</text>
+
+  <rect x="419" y="106" width="362" height="430" rx="14" class="panel"/>
+  <text x="600" y="142" text-anchor="middle" class="heading">SIMD</text>
+  <text x="600" y="167" text-anchor="middle" class="small">one vector instruction</text>
+
+  <rect x="447" y="254" width="112" height="74" rx="9" class="purple"/>
+  <text x="503" y="283" text-anchor="middle" class="label">VADD</text>
+  <text x="503" y="306" text-anchor="middle" class="small">one command</text>
+  <path d="M559 291 L614 291" class="wire"/>
+  <rect x="618" y="198" width="134" height="42" rx="7" class="structure"/>
+  <text x="685" y="225" text-anchor="middle" class="body">A0 + B0</text>
+  <rect x="618" y="248" width="134" height="42" rx="7" class="structure"/>
+  <text x="685" y="275" text-anchor="middle" class="body">A1 + B1</text>
+  <rect x="618" y="298" width="134" height="42" rx="7" class="structure"/>
+  <text x="685" y="325" text-anchor="middle" class="body">A2 + B2</text>
+  <rect x="618" y="348" width="134" height="42" rx="7" class="structure"/>
+  <text x="685" y="375" text-anchor="middle" class="body">A3 + B3</text>
+  <text x="600" y="448" text-anchor="middle" class="summary">same instruction, different data</text>
+  <text x="600" y="474" text-anchor="middle" class="body">One vector instruction controls</text>
+  <text x="600" y="495" text-anchor="middle" class="body">multiple arithmetic lanes.</text>
+
+  <rect x="810" y="106" width="362" height="430" rx="14" class="panel"/>
+  <text x="991" y="142" text-anchor="middle" class="heading">Multi-core</text>
+  <text x="991" y="167" text-anchor="middle" class="small">multiple instruction streams</text>
+
+  <rect x="836" y="204" width="126" height="62" rx="8" class="green"/>
+  <text x="899" y="232" text-anchor="middle" class="label">Stream 0</text>
+  <text x="899" y="252" text-anchor="middle" class="small">thread 0</text>
+  <rect x="836" y="292" width="126" height="62" rx="8" class="green"/>
+  <text x="899" y="320" text-anchor="middle" class="label">Stream 1</text>
+  <text x="899" y="340" text-anchor="middle" class="small">thread 1</text>
+  <path d="M962 235 L1017 235" class="wire"/>
+  <path d="M962 323 L1017 323" class="wire"/>
+  <rect x="1021" y="204" width="122" height="62" rx="8" class="structure"/>
+  <text x="1082" y="242" text-anchor="middle" class="label">Core 0</text>
+  <rect x="1021" y="292" width="122" height="62" rx="8" class="structure"/>
+  <text x="1082" y="330" text-anchor="middle" class="label">Core 1</text>
+  <text x="991" y="448" text-anchor="middle" class="summary">independent instruction streams</text>
+  <text x="991" y="474" text-anchor="middle" class="body">Software exposes threads or tasks;</text>
+  <text x="991" y="495" text-anchor="middle" class="body">different cores execute them.</text>
+
+  <rect x="28" y="566" width="1144" height="122" rx="14" class="panel"/>
+  <text x="82" y="602" class="heading">They compose</text>
+  <text x="82" y="632" class="body">A processor can have multiple cores; each core can issue multiple independent instructions; a vector instruction can operate across many data lanes.</text>
+  <text x="600" y="669" text-anchor="middle" class="summary">multi-core × superscalar issue × SIMD lanes</text>
+</svg>

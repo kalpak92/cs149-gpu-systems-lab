@@ -94,7 +94,6 @@ A small amount of unavoidable sequential work can become the dominant bottleneck
 
 Some work is inherently sequential, and some work becomes sequential because later operations depend on earlier results. The parallel portion can scale only until the sequential portion, synchronization, and coordination overhead dominate.
 
-
 The useful question is not:
 
 > How many cores or GPUs do I have?

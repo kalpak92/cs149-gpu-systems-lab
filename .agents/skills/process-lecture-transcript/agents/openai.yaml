@@ -1,0 +1,7 @@
+interface:
+  display_name: "Process Lecture Transcript"
+  short_description: "Build evidence-backed notes from lecture transcripts"
+  default_prompt: "Use $process-lecture-transcript to review this full lecture transcript and reconcile it with the primary sources."
+
+policy:
+  allow_implicit_invocation: true

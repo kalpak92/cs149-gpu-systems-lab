@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive comparison of superscalar, SIMD, and multi-core processor parallelism.">
+<title>Processor parallelism: superscalar, SIMD, and multi-core</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+    --foreground: light-dark(rgb(26 28 31), rgb(245 247 250));
+    --muted: light-dark(rgb(236 239 243), rgb(45 48 54));
+    --muted-foreground: light-dark(rgb(91 99 112), rgb(181 187 197));
+    --border: light-dark(rgb(205 211 220), rgb(75 81 91));
+    --primary: light-dark(rgb(25 101 176), rgb(121 185 255));
+    --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+    --viz-series-1: light-dark(rgb(25 101 176), rgb(121 185 255));
+    --viz-series-2: light-dark(rgb(120 76 170), rgb(194 153 255));
+    --viz-series-3: light-dark(rgb(35 126 92), rgb(99 211 165));
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  main {
+    width: min(960px, 100%);
+    margin: 0 auto;
+    padding: 24px;
+  }
+  .viz-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--foreground);
+    cursor: pointer;
+    font: inherit;
+    padding: 7px 11px;
+  }
+  .btn:hover { background: var(--muted); }
+  .btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+  .btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-ghost { margin-left: auto; }
+  @media (max-width: 560px) {
+    main { padding: 16px 10px; }
+    .btn-ghost { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+<div id="cpu-parallelism-explainer">
+  <h2>Three ways a processor exposes parallel work</h2>
+  <div class="viz-controls" aria-label="Choose a parallelism mechanism">
+    <button type="button" class="btn btn-primary" data-mode="superscalar" aria-pressed="true">Superscalar</button>
+    <button type="button" class="btn" data-mode="simd" aria-pressed="false">SIMD</button>
+    <button type="button" class="btn" data-mode="multicore" aria-pressed="false">Multi-core</button>
+    <button type="button" class="btn" data-mode="compose" aria-pressed="false">They compose</button>
+    <button type="button" class="btn btn-ghost" id="cpu-replay">Replay</button>
+  </div>
+  <div id="cpu-stage" aria-live="polite"></div>
+</div>
+
+<style>
+  #cpu-parallelism-explainer {
+    width: 100%;
+    color: var(--foreground);
+  }
+  #cpu-parallelism-explainer h2 {
+    margin: 0 0 12px;
+  }
+  #cpu-parallelism-explainer .viz-controls {
+    margin-bottom: 12px;
+  }
+  #cpu-stage {
+    width: 100%;
+  }
+  #cpu-stage svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  #cpu-stage text {
+    fill: var(--foreground);
+    font-family: inherit;
+    font-size: 12px;
+  }
+  #cpu-stage .secondary {
+    fill: var(--muted-foreground);
+  }
+  #cpu-stage .label {
+    font-weight: 500;
+  }
+  #cpu-stage .structure {
+    fill: color-mix(in srgb, var(--muted) 42%, transparent);
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  #cpu-stage .stream {
+    fill: color-mix(in srgb, var(--viz-series-1) 18%, transparent);
+    stroke: var(--viz-series-1);
+    stroke-width: 1.5;
+  }
+  #cpu-stage .instruction {
+    fill: var(--viz-series-1);
+    stroke: none;
+  }
+  #cpu-stage .instruction-alt {
+    fill: var(--viz-series-2);
+    stroke: none;
+  }
+  #cpu-stage .data {
+    fill: color-mix(in srgb, var(--viz-series-2) 22%, transparent);
+    stroke: var(--viz-series-2);
+    stroke-width: 1.5;
+  }
+  #cpu-stage .core {
+    fill: color-mix(in srgb, var(--viz-series-3) 18%, transparent);
+    stroke: var(--viz-series-3);
+    stroke-width: 1.5;
+  }
+  #cpu-stage .wire {
+    fill: none;
+    stroke: var(--muted-foreground);
+    stroke-width: 2;
+    marker-end: url(#cpu-arrow);
+  }
+  #cpu-stage .result {
+    fill: color-mix(in srgb, var(--viz-series-2) 35%, transparent);
+    stroke: var(--viz-series-2);
+    stroke-width: 1.5;
+  }
+  #cpu-stage .formula {
+    font-weight: 500;
+    font-size: 13px;
+  }
+  #cpu-stage .token-label {
+    fill: var(--background);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #cpu-stage animate,
+    #cpu-stage animateMotion {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('cpu-parallelism-explainer');
+  const stage = document.getElementById('cpu-stage');
+  const replay = document.getElementById('cpu-replay');
+  const buttons = [...root.querySelectorAll('[data-mode]')];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let mode = 'superscalar';
+
+  const defs = `
+    <defs>
+      <marker id="cpu-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="var(--muted-foreground)"></path>
+      </marker>
+    </defs>`;
+
+  function motion(path, begin = '0s', duration = '.9s') {
+    if (reduceMotion) return '';
+    return `<animateMotion path="${path}" begin="${begin}" dur="${duration}" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"></animateMotion>`;
+  }
+
+  function pulse(begin = '.75s') {
+    if (reduceMotion) return '';
+    return `<animate attributeName="opacity" values="0.2;1" begin="${begin}" dur=".35s" fill="freeze"></animate>`;
+  }
+
+  function shell(title, description, content, formula) {
+    return `<svg viewBox="0 0 760 390" role="img" aria-labelledby="cpu-title cpu-desc">
+      <title id="cpu-title">${title}</title>
+      <desc id="cpu-desc">${description}</desc>
+      ${defs}
+      ${content}
+      <text x="380" y="370" text-anchor="middle" class="formula">${formula}</text>
+    </svg>`;
+  }
+
+  function superscalar(animate) {
+    const moving = animate ? `
+      <g transform="translate(255 113)">
+        <rect class="instruction" x="-18" y="-12" width="36" height="24" rx="5"></rect>
+        <text x="0" y="4" text-anchor="middle" class="token-label">I2</text>
+        ${motion('M 0 0 L 140 0 L 272 -52')}
+      </g>
+      <g transform="translate(255 157)">
+        <rect class="instruction-alt" x="-18" y="-12" width="36" height="24" rx="5"></rect>
+        <text x="0" y="4" text-anchor="middle" class="token-label">I3</text>
+        ${motion('M 0 0 L 140 0 L 272 72')}
+      </g>` : '';
+    return shell(
+      'Superscalar execution',
+      'Two independent instructions from one ordered instruction stream are dispatched to different execution units in the same cycle.',
+      `<text x="100" y="42" text-anchor="middle" class="label">ONE instruction stream</text>
+       <rect class="stream" x="28" y="60" width="144" height="220" rx="8"></rect>
+       <g class="secondary">
+         <text x="54" y="94">I1: load A</text>
+         <text x="54" y="126">I2: add B,C</text>
+         <text x="54" y="158">I3: mul D,E</text>
+         <text x="54" y="190">I4: use I2</text>
+       </g>
+       <path class="wire" d="M172 170 L292 170"></path>
+       <rect class="structure" x="294" y="128" width="124" height="84" rx="8"></rect>
+       <text x="356" y="163" text-anchor="middle" class="label">Issue logic</text>
+       <text x="356" y="183" text-anchor="middle" class="secondary">find independence</text>
+       <path class="wire" d="M418 150 L516 96"></path>
+       <path class="wire" d="M418 190 L516 244"></path>
+       <rect class="structure" x="520" y="60" width="176" height="74" rx="8"></rect>
+       <text x="608" y="91" text-anchor="middle" class="label">Execution unit 0</text>
+       <text x="608" y="112" text-anchor="middle" class="secondary">executes I2</text>
+       <rect class="structure" x="520" y="208" width="176" height="74" rx="8"></rect>
+       <text x="608" y="239" text-anchor="middle" class="label">Execution unit 1</text>
+       <text x="608" y="260" text-anchor="middle" class="secondary">executes I3</text>
+       ${moving}`,
+      'Superscalar multiplies independent instructions issued from one stream'
+    );
+  }
+
+  function simd(animate) {
+    const lanes = [0, 1, 2, 3].map((i) => {
+      const y = 74 + i * 62;
+      return `<rect class="data" x="420" y="${y}" width="230" height="42" rx="7"></rect>
+        <text x="445" y="100" transform="translate(0 ${i * 62})">lane ${i}</text>
+        <text x="535" y="100" transform="translate(0 ${i * 62})">A${i} + B${i}</text>
+        <rect class="result" x="606" y="${y + 7}" width="28" height="28" rx="4" opacity="${animate && !reduceMotion ? '0.2' : '1'}">${animate ? pulse('.7s') : ''}</rect>`;
+    }).join('');
+    const token = animate ? `<g transform="translate(185 174)">
+      <rect class="instruction" x="-39" y="-14" width="78" height="28" rx="5"></rect>
+      <text x="0" y="4" text-anchor="middle" class="token-label">VECTOR ADD</text>
+      ${motion('M 0 0 L 138 0', '0s', '.65s')}
+    </g>` : '';
+    return shell(
+      'SIMD execution',
+      'One vector add instruction controls four arithmetic lanes, applying the same operation to four different pairs of data elements.',
+      `<text x="130" y="42" text-anchor="middle" class="label">ONE vector instruction</text>
+       <rect class="stream" x="42" y="136" width="174" height="76" rx="8"></rect>
+       <text x="129" y="168" text-anchor="middle" class="label">VADD</text>
+       <text x="129" y="190" text-anchor="middle" class="secondary">vC = vA + vB</text>
+       <path class="wire" d="M216 174 L332 174"></path>
+       <rect class="structure" x="336" y="132" width="58" height="84" rx="8"></rect>
+       <text x="365" y="163" text-anchor="middle" class="label">SIMD</text>
+       <text x="365" y="184" text-anchor="middle" class="secondary">control</text>
+       <path class="wire" d="M394 174 L414 95"></path>
+       <path class="wire" d="M394 174 L414 157"></path>
+       <path class="wire" d="M394 174 L414 219"></path>
+       <path class="wire" d="M394 174 L414 281"></path>
+       ${lanes}
+       ${token}`,
+      'SIMD multiplies data elements processed by one instruction'
+    );
+  }
+
+  function multicore(animate) {
+    const rows = [0, 1, 2].map((i) => {
+      const y = 70 + i * 92;
+      const token = animate ? `<g transform="translate(170 ${y + 34})">
+        <rect class="instruction" x="-18" y="-12" width="36" height="24" rx="5"></rect>
+        <text x="0" y="4" text-anchor="middle" class="token-label">I${i}</text>
+        ${motion(`M 0 0 L 248 0`, `${i * 0.12}s`, '.8s')}
+      </g>` : '';
+      return `<rect class="stream" x="30" y="${y}" width="170" height="68" rx="8"></rect>
+        <text x="115" y="${y + 29}" text-anchor="middle" class="label">Instruction stream ${i}</text>
+        <text x="115" y="${y + 50}" text-anchor="middle" class="secondary">thread ${i}</text>
+        <path class="wire" d="M200 ${y + 34} L416 ${y + 34}"></path>
+        <rect class="core" x="420" y="${y}" width="250" height="68" rx="8"></rect>
+        <text x="545" y="${y + 29}" text-anchor="middle" class="label">Core ${i}</text>
+        <text x="545" y="${y + 50}" text-anchor="middle" class="secondary">runs its own stream</text>
+        ${token}`;
+    }).join('');
+    return shell(
+      'Multi-core execution',
+      'Three different instruction streams run concurrently on three physical processor cores.',
+      rows,
+      'Multi-core multiplies independent instruction streams'
+    );
+  }
+
+  function compose(animate) {
+    const glow = animate && !reduceMotion ? pulse('.9s') : '';
+    return shell(
+      'The mechanisms compose',
+      'Two cores each run an instruction stream, issue independent scalar instructions, and execute a vector instruction across several data lanes.',
+      `<text x="92" y="38" text-anchor="middle" class="label">2 instruction streams</text>
+       <rect class="stream" x="26" y="58" width="132" height="52" rx="7"></rect>
+       <text x="92" y="89" text-anchor="middle">stream 0</text>
+       <rect class="stream" x="26" y="226" width="132" height="52" rx="7"></rect>
+       <text x="92" y="257" text-anchor="middle">stream 1</text>
+       <path class="wire" d="M158 84 L214 84"></path>
+       <path class="wire" d="M158 252 L214 252"></path>
+       <rect class="core" x="218" y="42" width="494" height="116" rx="10"></rect>
+       <text x="244" y="69" class="label">Core 0</text>
+       <rect class="structure" x="300" y="62" width="118" height="74" rx="7"></rect>
+       <text x="359" y="91" text-anchor="middle">superscalar</text>
+       <text x="359" y="112" text-anchor="middle" class="secondary">issue I1 + VADD</text>
+       <path class="wire" d="M418 82 L468 75"></path>
+       <path class="wire" d="M418 116 L468 123"></path>
+       <rect class="structure" x="472" y="54" width="214" height="42" rx="7"></rect>
+       <text x="579" y="80" text-anchor="middle">scalar unit executes I1</text>
+       <rect class="data" x="472" y="104" width="214" height="42" rx="7" opacity="${animate && !reduceMotion ? '0.3' : '1'}">${glow}</rect>
+       <text x="579" y="130" text-anchor="middle">SIMD: VADD across data lanes</text>
+       <rect class="core" x="218" y="210" width="494" height="116" rx="10"></rect>
+       <text x="244" y="237" class="label">Core 1</text>
+       <rect class="structure" x="300" y="230" width="118" height="74" rx="7"></rect>
+       <text x="359" y="259" text-anchor="middle">superscalar</text>
+       <text x="359" y="280" text-anchor="middle" class="secondary">issue I2 + VADD</text>
+       <path class="wire" d="M418 250 L468 243"></path>
+       <path class="wire" d="M418 284 L468 291"></path>
+       <rect class="structure" x="472" y="222" width="214" height="42" rx="7"></rect>
+       <text x="579" y="248" text-anchor="middle">scalar unit executes I2</text>
+       <rect class="data" x="472" y="272" width="214" height="42" rx="7" opacity="${animate && !reduceMotion ? '0.3' : '1'}">${glow}</rect>
+       <text x="579" y="298" text-anchor="middle">SIMD: VADD across data lanes</text>`,
+      'cores × instruction-level parallelism × SIMD lanes'
+    );
+  }
+
+  const views = { superscalar, simd, multicore, compose };
+
+  function render(animate = false) {
+    stage.innerHTML = views[mode](animate);
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      mode = button.dataset.mode;
+      buttons.forEach((peer) => {
+        const selected = peer === button;
+        peer.setAttribute('aria-pressed', String(selected));
+        peer.classList.toggle('btn-primary', selected);
+      });
+      render(true);
+    });
+  });
+
+  replay.addEventListener('click', () => render(true));
+  render(false);
+})();
+</script>
+
+</main>
+</body>
+</html>

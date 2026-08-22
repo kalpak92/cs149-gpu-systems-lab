@@ -66,12 +66,17 @@ requirements file.
 ## Repository map
 
 ```text
+.agents/       Repository-scoped Codex skills for this learning workflow
 docs/          Learning contract, roadmap, and environment notes
 experiments/   One small, independent experiment per directory
 templates/     Copyable templates for experiments and results
 scripts/       Small reproducibility helpers (not a framework)
 results/       Raw measurements and selected evidence
 ```
+
+Codex automatically discovers skills under `.agents/skills/` when it starts
+inside this repository, including after the repository is cloned to another
+machine.
 
 Small textual evidence under `results/` may be committed. Large profiler
 exports, databases, and other generated artifacts are ignored.
