@@ -117,6 +117,12 @@ bespoke standalone SVG/HTML layout or when an editable `.excalidraw` file is
 explicitly needed. Keep standalone HTML under `docs/visualizations/` and
 Excalidraw sources under `docs/diagrams/`.
 
+The [repository validation workflow](.github/workflows/ci.yml) checks Python
+and shell syntax, local documentation and skill references, web artifact
+parsing, Mermaid renderer tests, and generated-diagram drift. It intentionally
+does not install the CUDA-enabled Python requirements or run GPU workloads;
+those claims require evidence from the intended T4 execution context.
+
 ## Working agreement
 
 For every experiment, begin by writing a question and a prediction. **Hard
