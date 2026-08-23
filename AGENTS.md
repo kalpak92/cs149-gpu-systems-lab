@@ -93,19 +93,25 @@ written in the owner's voice. The series should be a technical narrative (for
 example, “Learning AI Infrastructure from the Metal Up”), not chronological
 lecture summaries.
 
-## Current checkpoint — 2026-08-20
+## Current checkpoint — 2026-08-23
 
 - Lecture 1 has been reviewed; working notes are in `docs/lecture-01.md`.
+- Lecture 2 working notes are drafted in `docs/lecture-02.md`. The full
+  auto-generated transcript was reviewed chronologically, and terminology and
+  examples were checked against the lecture slides. The note is not complete
+  until the owner provides the three pending reflections in their own words.
 - Experiment 00 is complete. Its interpretation is in
   `experiments/00_machine-baseline/README.md`, with raw textual evidence in
   `results/00_machine-baseline/2026-08-19-rerun.md`.
 - The project-local `.venv` has been recreated and validated on the host Tesla
   T4. Do not revert documentation or scripts to the historical
   `/home/ubuntu/venvs/torch-gpu` path.
-- The next learning step is Lecture 2, “A Modern Multi-Core Processor (Part
-  I).” The owner will return with one understood concept, one unclear or
-  counterintuitive point, and one AI-infrastructure connection. Derive
-  Experiment 01 from that material.
+- The next learning step is the Lecture 2 owner reflection: explain the
+  difference among superscalar execution, SIMD, multi-core execution, and
+  hardware multithreading; identify one unclear or counterintuitive point; and
+  state one AI-infrastructure connection. Derive one narrow Experiment 01
+  question only after the owner supplies that material. Do not write the
+  reflection on the owner's behalf.
 - CUDA asynchronous wall-clock timing is a recorded later follow-up; it is not
   the immediate next experiment because GPU architecture appears later in the
   course sequence.
