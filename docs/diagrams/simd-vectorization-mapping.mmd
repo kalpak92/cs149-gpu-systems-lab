@@ -1,0 +1,18 @@
+flowchart TB
+    intent["Scalar loop intent<br/>one C element = one A element + one B element"]
+    intrinsics["Intrinsics<br/>Programmer explicitly names<br/>vector loads, registers, VADD, and store"]
+    compiler["Higher-level loop or parallel language<br/>Compiler proves that iterations<br/>can be vectorized"]
+    vector_loop(["Possible eight-wide vector loop"])
+    loads["Load eight adjacent A and B elements<br/>into vector registers vA and vB"]
+    vadd["One VADD instruction<br/>vC = vA + vB"]
+    results["Eight element-wise results<br/>eight adjacent C elements"]
+    advance["Advance loop index by 8"]
+
+    intent --> intrinsics
+    intent --> compiler
+    intrinsics -->|Explicit mapping| vector_loop
+    compiler -->|Inferred mapping| vector_loop
+    vector_loop --> loads
+    loads --> vadd
+    vadd --> results
+    results --> advance

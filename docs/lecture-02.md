@@ -654,6 +654,8 @@ make that transformation visible but cumbersome. A higher-level parallel
 language or vectorizing compiler can express or infer the same mapping without
 requiring the application to spell out every vector register operation.
 
+![Two authoring paths to a possible eight-wide SIMD loop](assets/simd-vectorization-mapping.svg)
+
 ## Divergence: when lanes disagree about control flow
 
 SIMD works best when the same instruction sequence applies to all active data
@@ -708,10 +710,49 @@ An arithmetic instruction cannot proceed until its input data is available:
 load data ---- long wait ----> data ready --> arithmetic
 ```
 
+Suppose:
+
+```text
+load r0 ← memory
+load r1 ← memory
+add r2 = r0 + r1
+```
+
+You cannot perform the add until both loads finish.
+
+```text
+load
+ │
+ │          waiting...
+ │------------------------>
+ ▼
+data arrives
+ │
+ ▼
+ADD
+```
+
+That is a **stall**.
+
+And here's the subtle point:
+
+```text
+LOTS OF ALUs
+      +
+NO READY DATA
+      =
+IDLE HARDWARE
+```
+
+> Hardware capability is not the same thing as useful throughput.
+
 Caches reduce the length of many stalls, but they cannot guarantee that every
-access hits. On a miss, the processor can try to find other independent
-instructions from the same stream. Hardware prefetching may also predict
-future accesses and bring data toward the processor before it is requested.
+access hits.
+
+- On a miss, the processor can try to find other independent
+instructions from the same stream.
+- Hardware prefetching may also predict future accesses and bring data toward the processor before it is requested.
+
 These mechanisms reduce or hide some access latency; they do not make DRAM
 itself intrinsically faster.
 
@@ -756,9 +797,6 @@ This is not an operating-system context switch. The hardware contexts are
 already resident in the core, allowing instruction selection at a much finer
 granularity.
 
-The linked video introduces the first behavior below and then stops. The
-official slide deck continues the terminology and distinguishes both forms:
-
 Two important forms are:
 
 - **Interleaved multithreading:** the core chooses an instruction from one
@@ -776,10 +814,44 @@ thread now shares issue opportunities with other threads. The goal is not
 necessarily to minimize one thread's latency; it is to finish more total work
 by avoiding otherwise idle cycles.
 
-Latency hiding therefore requires independent runnable work. If no resident
+**Latency hiding** therefore requires independent runnable work. *If no resident
 thread can make progress, the execution units stall. Adding threads also
 cannot overcome a saturated memory-bandwidth limit, shared-resource
-contention, or an unavoidable dependency.
+contention, or an unavoidable dependency.*
+
+```text
+                LATENCY
+                   │
+                  wait
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+    no other work        independent work
+        │                     │
+        ▼                     ▼
+     STALL          ISSUE READY WORK FROM
+        │              ANOTHER THREAD
+        ▼                     │
+poor utilization              ▼
+                       useful computation
+```
+
+Latency hiding requires independent work.
+
+If every thread waits on the same bottleneck:
+
+```text
+Thread 1 → WAIT
+Thread 2 → WAIT
+Thread 3 → WAIT
+Thread 4 → WAIT
+         │
+         ▼
+no ready instructions
+         │
+         ▼
+    core stalls
+```
 
 ## Latency and throughput are different
 
@@ -892,55 +964,75 @@ measurements established by Experiment 00.
 7. SIMD efficiency depends on instruction-stream coherence across lanes.
 8. Core count, issue width, and SIMD width describe a theoretical arithmetic
    capability, not achieved workload performance.
-9. Hardware multithreading hides latency by using another thread's ready work;
-   it does not reduce the stalled operation's latency and may increase an
-   individual thread's completion time.
+9. **Hardware multithreading** keeps multiple execution contexts resident so
+   the existing execution units can issue another thread's ready work when one
+   stalls. This **hides** latency; it *does not reduce the stalled operation's
+   latency* and may increase an individual thread's completion time.
 10. More threads stop helping when they no longer add useful ready work or a
     shared execution or bandwidth resource is saturated.
-11. Utilization depends on both available hardware and the workload's ability
-    to feed it with ready instructions and data.
+11. **Utilization** is the unifying objective. Superscalar execution, SIMD,
+    multi-core execution, and hardware multithreading obtain ready work in
+    different ways, but all attempt to keep expensive execution resources
+    doing useful work.
 
-## Owner reflection — pending
-
-These sections are intentionally incomplete. They should preserve the owner's
-reasoning rather than presenting generated reflections as learned conclusions.
-
-### What I think I understand
-
-In my own words, what is the difference between superscalar execution, SIMD,
-multi-core execution, and hardware multithreading?
-
-> **Owner response:** pending
-
-### What is unclear or counterintuitive
-
-Which mechanism is least intuitive? Is the unclear part the cache-line and
-locality model, superscalar execution, SIMD, multi-core execution, or hardware
-multithreading? What specific claim, diagram, or example would I like to test
-or explain more carefully?
-
-> **Owner response:** pending
+```text
+                  MODERN PROCESSOR PERFORMANCE
+                             │
+                             ▼
+                 Keep execution units busy
+                             │
+         ┌───────────────────┼────────────────────┐
+         │                   │                    │
+         ▼                   ▼                    ▼
+ Find independent      Perform same work    Run independent
+ instructions          across many data     instruction streams
+         │                   │                    │
+         ▼                   ▼                    ▼
+   SUPERSCALAR              SIMD              MULTI-CORE
+         │                   │                    │
+         └───────────────────┼────────────────────┘
+                             │
+                             ▼
+                    More available work
+                             │
+                             ▼
+                        MEMORY STALL
+                             │
+                             ▼
+                 Is another thread runnable?
+                      /              \
+                    yes               no
+                     │                 │
+                     ▼                 ▼
+             run another thread       STALL
+                     │
+                     ▼
+                hide latency
+                     │
+                     ▼
+               higher utilization
+                     │
+                     ▼
+                 HIGH THROUGHPUT
+```
 
 ### Production / AI Infrastructure Connection
 
-Where might one of these mechanisms or limits appear in an AI system—for
+> Where might one of these mechanisms or limits appear in an AI system—for
 example, input preprocessing, batching, CPU-to-GPU submission, divergent GPU
 work, or memory-bandwidth pressure?
 
-> **Owner response:** pending
+One place I see these mechanisms and limits appearing is the input pipeline for AI training.
 
-After these reflections are recorded, derive one narrow Experiment 01 question.
-Do not attempt to measure superscalar execution, SIMD, multi-core scaling, and
-hardware multithreading in one experiment.
+Independent samples can be decoded and transformed across multiple CPU cores, while operations over arrays of pixels or tokens may use SIMD within each core.
+
+However, adding more workers will not keep improving throughput if they become limited by memory bandwidth, storage I/O, or data dependencies.
+
+If the CPU cannot prepare and submit batches quickly enough, the GPU may sit idle even though it has available compute capacity.
+
+At infrastructure scale, GPU utilization therefore depends not only on the accelerator, but also on correctly sizing and placing the surrounding CPU, memory, storage, and data-loading resources.
 
 ## Source context
 
-- [Stanford CS149 Fall 2023 course](https://gfxcourses.stanford.edu/cs149/fall23/)
 - [Fall 2023 Lecture 2 video](https://www.youtube.com/watch?v=CKmNpAO5rS4)
-- [Fall 2023 Lecture 2 slides: A Modern Multi-Core Processor](https://gfxcourses.stanford.edu/cs149/fall23content/media/multicore/02_basicarch_xX3ssOi.pdf)
 - [Stanford CS149 Fall 2025 course](https://gfxcourses.stanford.edu/cs149/fall25/)
-
-The full auto-generated transcript for the linked video was reviewed from
-0:00 through 1:16:07. Because automatic captions contain repeated text and
-recognition errors, the transcript was used to recover the spoken sequence and
-emphasis, while terminology and examples were checked against the slides.
