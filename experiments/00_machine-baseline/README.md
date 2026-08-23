@@ -98,7 +98,9 @@ experiment rather than an extra claim in this one.
 
 ## 5. Implementation log
 
-Interpreter inventories from the coding sandbox:
+Historical interpreter inventories from the coding sandbox follow. The
+external virtual environment shown here was later superseded by the
+project-local `.venv`:
 
 ```bash
 python3 scripts/collect_environment.py

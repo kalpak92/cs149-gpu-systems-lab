@@ -28,9 +28,10 @@ Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows
 | Item | Status | Record |
 | --- | --- | --- |
 | Lecture 1 — Why Parallelism? Why Efficiency? | Reviewed | [Working notes](docs/lecture-01.md) |
+| Lecture 2 — A Modern Multi-Core Processor | Draft; awaiting owner reflection | [Working notes](docs/lecture-02.md) |
 | Experiment 00 — Machine baseline | Complete | [Experiment](experiments/00_machine-baseline/README.md) · [Raw evidence](results/00_machine-baseline/2026-08-19-rerun.md) |
 | GPU Python environment | Validated on the host T4 | [Environment record](docs/environment.md) |
-| Next step | Lecture 2 — A Modern Multi-Core Processor (Part I) | Derive Experiment 01 after the lecture |
+| Next step | Complete the Lecture 2 owner reflection | Derive one narrow Experiment 01 question afterward |
 
 ## Reproduce the GPU Python environment
 
@@ -108,6 +109,13 @@ node .agents/skills/pretty-mermaid/scripts/render.mjs \
   --node-spacing 16 \
   --layer-spacing 28
 ```
+
+Pretty Mermaid remains the default for routine flowcharts, sequences, state or
+class diagrams, ERDs, charts, and architecture diagrams that fit concise
+Mermaid source. Use the repository-scoped `diagram-maker` skill only for a
+bespoke standalone SVG/HTML layout or when an editable `.excalidraw` file is
+explicitly needed. Keep standalone HTML under `docs/visualizations/` and
+Excalidraw sources under `docs/diagrams/`.
 
 ## Working agreement
 

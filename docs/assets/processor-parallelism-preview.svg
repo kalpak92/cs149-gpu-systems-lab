@@ -106,8 +106,9 @@
   <text x="991" y="474" text-anchor="middle" class="body">Software exposes threads or tasks;</text>
   <text x="991" y="495" text-anchor="middle" class="body">different cores execute them.</text>
 
-  <rect x="28" y="566" width="1144" height="122" rx="14" class="panel"/>
+  <rect x="28" y="566" width="1144" height="128" rx="14" class="panel"/>
   <text x="82" y="602" class="heading">They compose</text>
-  <text x="82" y="632" class="body">A processor can have multiple cores; each core can issue multiple independent instructions; a vector instruction can operate across many data lanes.</text>
-  <text x="600" y="669" text-anchor="middle" class="summary">multi-core × superscalar issue × SIMD lanes</text>
+  <text x="82" y="628" class="body">A processor can have multiple cores, and each core can issue multiple independent instructions.</text>
+  <text x="82" y="650" class="body">Those instructions can also operate across multiple SIMD data lanes.</text>
+  <text x="600" y="680" text-anchor="middle" class="summary">multi-core × superscalar issue × SIMD lanes</text>
 </svg>

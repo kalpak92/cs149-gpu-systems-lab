@@ -7,7 +7,9 @@ description: |
   sequence/state/class diagram, ERD, XY chart, or architecture/workflow/data-model
   visualization; or wants to beautify, theme, batch-convert, or make a diagram
   terminal-friendly. Runs locally without a browser or DOM, with 15 built-in
-  themes and custom colors.
+  themes and custom colors. Do not use when the user explicitly requests an
+  Excalidraw file or a bespoke manually positioned SVG/HTML layout; use the
+  diagram-maker skill instead.
 ---
 
 # Pretty Mermaid
