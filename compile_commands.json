@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/home/ubuntu/cs149-gpu-systems-lab",
+    "command": "/usr/bin/g++ -std=c++20 -O3 -march=native -fopenmp -Wall -Wextra -Wpedantic -c experiments/01_cpu-thread-scaling/thread_scaling.cpp -o /tmp/cs149-experiment-01-thread-scaling.o",
+    "file": "/home/ubuntu/cs149-gpu-systems-lab/experiments/01_cpu-thread-scaling/thread_scaling.cpp"
+  }
+]

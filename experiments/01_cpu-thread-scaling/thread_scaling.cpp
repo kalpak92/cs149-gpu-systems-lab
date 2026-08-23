@@ -10,6 +10,24 @@
 
 #include <omp.h>
 
+/*
+ * Experiment 01: thread scaling benchmark.
+ *
+ * Purpose:
+ *   Measure how a fixed compute-heavy OpenMP loop scales from 1 to 8 worker
+ *   threads while keeping the workload and compiler flags constant.
+ *
+ * Output contract:
+ *   - CHECK: correctness against a single-thread reference
+ *   - RUN: wall-clock timing for each worker count and repetition
+ *   - SUMMARY: median time, speedup, and efficiency by thread count
+ *   - CHECKSUM: final output checksum to keep the result observable
+ *
+ * Timing boundary:
+ *   The code intentionally excludes initialization, allocation, and correctness
+ *   checks from the timed region. Only the OpenMP loop body is measured.
+ */
+
 namespace {
 
 // The laboratory machine has eight physical cores and sixteen logical CPUs.
@@ -43,6 +61,9 @@ struct Comparison {
     double max_absolute_difference = 0.0;
 };
 
+// Parse command-line options for element count and repetition count. The
+// benchmark keeps the experiment setup explicit so a one-line shell command can
+// reproduce the measured run without editing the source.
 [[nodiscard]] Options parse_options(int argc, char** argv) {
     Options options;
 
@@ -110,6 +131,9 @@ struct Comparison {
     return value;
 }
 
+// Apply the fixed compute workload to the input array using the requested
+// OpenMP team size. The method measures only this loop, not initialization or
+// correctness checking.
 void run_kernel(
     const std::vector<float>& input,
     std::vector<float>& output,
@@ -128,6 +152,8 @@ void run_kernel(
     }
 }
 
+// Verify that the runtime honors the requested team size before timing any
+// measured repetitions. This is a correctness guard, not part of the benchmark.
 [[nodiscard]] int observe_team_size(int requested_threads) {
     int observed_threads = 0;
 
@@ -142,6 +168,9 @@ void run_kernel(
     return observed_threads;
 }
 
+// Compare a candidate output against the single-thread reference using a
+// relative and absolute tolerance. This prevents a floating-point mismatch from
+// being silently treated as equal while still allowing tiny roundoff drift.
 [[nodiscard]] Comparison compare_outputs(
     const std::vector<float>& reference,
     const std::vector<float>& candidate
@@ -175,6 +204,9 @@ void run_kernel(
     return sum;
 }
 
+// Median is used instead of mean because a few noisy samples would otherwise
+// distort the measured speedup curve. The benchmark stores all timed runs and
+// reports the median per team size.
 [[nodiscard]] double median(std::vector<double> samples) {
     std::sort(samples.begin(), samples.end());
     const std::size_t middle = samples.size() / 2;
