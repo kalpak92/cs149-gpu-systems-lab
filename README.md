@@ -81,6 +81,34 @@ machine.
 Small textual evidence under `results/` may be committed. Large profiler
 exports, databases, and other generated artifacts are ignored.
 
+## Render source-controlled diagrams
+
+Static documentation diagrams keep editable Mermaid source under
+`docs/diagrams/` and generated SVGs under `docs/assets/`. The repository-scoped
+`pretty-mermaid` skill is vendored at a recorded upstream commit and uses a
+locked Node.js dependency environment separate from the canonical Python/GPU
+environment.
+
+After explaining the dependency boundary and receiving approval, recreate the
+renderer environment once:
+
+```bash
+cd .agents/skills/pretty-mermaid
+npm ci
+```
+
+Then render a diagram from the repository root:
+
+```bash
+node .agents/skills/pretty-mermaid/scripts/render.mjs \
+  --input docs/diagrams/experiment-00-gpu-usability.mmd \
+  --output docs/assets/experiment-00-gpu-usability-flow.svg \
+  --theme zinc-light \
+  --font sans-serif \
+  --node-spacing 16 \
+  --layer-spacing 28
+```
+
 ## Working agreement
 
 For every experiment, begin by writing a question and a prediction. **Hard

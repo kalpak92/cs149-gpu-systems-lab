@@ -1,0 +1,25 @@
+flowchart TB
+    gpu["1. Physical GPU present<br/>Observed on host: NVIDIA Tesla T4"]
+    driver{"2. Driver query?"}
+    driver_blocked["Blocked at host or driver layer"]
+    access{"3. Device exposed?"}
+    sandbox_blocked["Observed in coding sandbox<br/>GPU device not exposed"]
+    pytorch{"4. PyTorch installed?"}
+    system_blocked["Observed in system Python<br/>PyTorch unavailable"]
+    cuda{"5. CUDA available?"}
+    cuda_blocked["Investigate device exposure,<br/>driver compatibility, or framework build"]
+    correct{"6. Correct result?"}
+    result_blocked["Investigate implementation, inputs,<br/>dtype, or numerical criterion"]
+    usable(["Usable for this workload<br/>Observed: 0 mismatches at<br/>rtol=1e-4, atol=1e-4"])
+
+    gpu --> driver
+    driver -->|No| driver_blocked
+    driver -->|Yes: nvidia-smi works| access
+    access -->|No| sandbox_blocked
+    access -->|Yes: host terminal| pytorch
+    pytorch -->|No| system_blocked
+    pytorch -->|Yes: project .venv| cuda
+    cuda -->|No| cuda_blocked
+    cuda -->|Yes| correct
+    correct -->|No| result_blocked
+    correct -->|Yes| usable
