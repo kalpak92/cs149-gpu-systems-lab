@@ -28,10 +28,11 @@ Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows
 | Item | Status | Record |
 | --- | --- | --- |
 | Lecture 1 — Why Parallelism? Why Efficiency? | Reviewed | [Working notes](docs/lecture-01.md) |
-| Lecture 2 — A Modern Multi-Core Processor | Draft; awaiting owner reflection | [Working notes](docs/lecture-02.md) |
+| Lecture 2 — A Modern Multi-Core Processor | Reviewed | [Working notes](docs/lecture-02.md) |
 | Experiment 00 — Machine baseline | Complete | [Experiment](experiments/00_machine-baseline/README.md) · [Raw evidence](results/00_machine-baseline/2026-08-19-rerun.md) |
+| Experiment 01 — CPU thread scaling | Complete | [Experiment](experiments/01_cpu-thread-scaling/README.md) · [Raw evidence](results/01_cpu-thread-scaling/2026-08-23-run.md) |
 | GPU Python environment | Validated on the host T4 | [Environment record](docs/environment.md) |
-| Next step | Complete the Lecture 2 owner reflection | Derive one narrow Experiment 01 question afterward |
+| Next step | Define Experiment 02 — SIMD/vectorization | Record the prediction and falsification criterion before implementation |
 
 ## Reproduce the GPU Python environment
 
@@ -117,11 +118,12 @@ bespoke standalone SVG/HTML layout or when an editable `.excalidraw` file is
 explicitly needed. Keep standalone HTML under `docs/visualizations/` and
 Excalidraw sources under `docs/diagrams/`.
 
-The [repository validation workflow](.github/workflows/ci.yml) checks Python
-and shell syntax, local documentation and skill references, web artifact
-parsing, Mermaid renderer tests, and generated-diagram drift. It intentionally
-does not install the CUDA-enabled Python requirements or run GPU workloads;
-those claims require evidence from the intended T4 execution context.
+The [repository validation workflow](.github/workflows/ci.yml) checks Python,
+shell, and C++/OpenMP syntax; local documentation and skill references; web
+artifact parsing; Mermaid renderer tests; and generated-diagram drift. It
+intentionally does not install the CUDA-enabled Python requirements, run GPU
+workloads, or treat a shared CI runner as benchmark evidence; those claims
+require measurements from the intended execution context.
 
 ## Working agreement
 

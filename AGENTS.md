@@ -96,22 +96,31 @@ lecture summaries.
 ## Current checkpoint — 2026-08-23
 
 - Lecture 1 has been reviewed; working notes are in `docs/lecture-01.md`.
-- Lecture 2 working notes are drafted in `docs/lecture-02.md`. The full
-  auto-generated transcript was reviewed chronologically, and terminology and
-  examples were checked against the lecture slides. The note is not complete
-  until the owner provides the three pending reflections in their own words.
+- Lecture 2 has been reviewed in `docs/lecture-02.md`. The owner stated the
+  conceptual distinctions among ILP, SIMD, multi-core execution, and hardware
+  multithreading; identified real CPU scaling as the practical uncertainty;
+  and connected host preprocessing throughput to GPU utilization.
 - Experiment 00 is complete. Its interpretation is in
   `experiments/00_machine-baseline/README.md`, with raw textual evidence in
   `results/00_machine-baseline/2026-08-19-rerun.md`.
 - The project-local `.venv` has been recreated and validated on the host Tesla
   T4. Do not revert documentation or scripts to the historical
   `/home/ubuntu/venvs/torch-gpu` path.
-- The next learning step is the Lecture 2 owner reflection: explain the
-  difference among superscalar execution, SIMD, multi-core execution, and
-  hardware multithreading; identify one unclear or counterintuitive point; and
-  state one AI-infrastructure connection. Derive one narrow Experiment 01
-  question only after the owner supplies that material. Do not write the
-  reflection on the owner's behalf.
+- Experiment 01 measured one fixed compute-heavy OpenMP loop with `1`, `2`,
+  `4`, and `8` physical-core workers. The pre-recorded prediction expected
+  roughly `3x` speedup at four threads and `4–6x` at eight. The longer check
+  instead observed `3.990x` and `7.964x`, with zero correctness mismatches.
+  Code and notes are in `experiments/01_cpu-thread-scaling/`; raw evidence is
+  in `results/01_cpu-thread-scaling/2026-08-23-run.md`.
+- Experiment 01 is complete. The owner concluded that OpenMP made the
+  independent iterations straightforward to distribute but did not create the
+  parallelism or guarantee speedup; the favorable result depended on balanced,
+  compute-heavy work, static scheduling, and one worker per physical core, and
+  should not be generalized to memory-bound, imbalanced, or synchronized work.
+- The next learning step is to define Experiment 02: run the same loop at one
+  OpenMP thread with compiler vectorization enabled versus disabled. Record the
+  owner's prediction and what would change their mind before implementation.
+  Memory locality remains a separate Experiment 03.
 - CUDA asynchronous wall-clock timing is a recorded later follow-up; it is not
   the immediate next experiment because GPU architecture appears later in the
   course sequence.

@@ -36,7 +36,20 @@ jobs:
         run: python -m compileall -q scripts experiments
 
       - name: Validate shell syntax
-        run: bash -n experiments/00_machine-baseline/sample_gpu_state.sh
+        run: |
+          bash -n experiments/00_machine-baseline/sample_gpu_state.sh
+          bash -n experiments/01_cpu-thread-scaling/run_experiment.sh
+
+      - name: Validate C++ and OpenMP syntax
+        run: |
+          g++ \
+            -std=c++20 \
+            -fopenmp \
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -fsyntax-only \
+            experiments/01_cpu-thread-scaling/thread_scaling.cpp
 
       - name: Validate repository documentation
         run: python scripts/validate_repository.py

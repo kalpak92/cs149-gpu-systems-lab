@@ -1,6 +1,6 @@
 # Lecture 2 — A Modern Multi-Core Processor
 
-**Status:** draft — awaiting owner review and reflection
+**Status:** reviewed
 
 This note follows the Fall 2023 CS149 lecture. The Fall 2025 offering divides
 the material into Parts I and II, but retains the same central topics:
