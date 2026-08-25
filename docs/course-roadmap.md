@@ -2,6 +2,10 @@
 
 This roadmap is intentionally topic-based rather than tied to a particular CS149 offering. Align the order with the lectures and assignments you are following; do not rush ahead merely to populate the repository.
 
+Phase numbers describe conceptual stages and do not necessarily correspond
+one-to-one with experiment directory numbers. Experiment numbers record the
+order in which this repository ran its measurements.
+
 | Phase | Core question | Evidence to produce | AI infrastructure connection |
 | --- | --- | --- | --- |
 | 00 — Machine baseline | What hardware and software actually run my workload? | GPU/CPU/software inventory and a first PyTorch tensor operation | Node labels, device plugins, capacity vs allocatable resources |

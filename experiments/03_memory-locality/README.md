@@ -188,3 +188,12 @@ layouts. Two representations can contain the same values and require the same
 arithmetic while generating very different memory traffic. At cluster scale,
 poor host-side locality can reduce batch-production throughput and leave
 expensive GPUs waiting for input.
+
+## 10. One follow-up experiment — deferred
+
+How does increasing arithmetic work per loaded value change the performance
+difference between memory-dominated and compute-dominated workloads?
+
+This is a possible question to revisit after Lecture 3, not the next scheduled
+experiment. The experiment should be defined only after the lecture reflection
+establishes whether this is the most useful uncertainty to investigate.
