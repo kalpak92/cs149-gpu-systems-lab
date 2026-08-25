@@ -132,9 +132,24 @@ lecture summaries.
   on multiple cores and noted that dependencies, branches, irregular memory
   access, or memory-bandwidth pressure can prevent an eight-lane instruction
   from producing `8x` application speedup.
-- The next learning step is to define one narrow Experiment 03 question about
-  memory locality. Record the owner's prediction and what would change their
-  mind before implementation; do not start from a finished implementation.
+- Experiment 03 compared row-major and column-major traversal of the same
+  64-byte-aligned, `1,000,000 × 16` row-major float matrix on one OpenMP worker,
+  with compiler vectorization and loop interchange disabled. The owner
+  predicted an approximately `8x` column-major slowdown, with less than `2x`
+  and more than `16x` as the pre-recorded thresholds. Manipulation and
+  correctness checks passed, and column-major traversal was measured at
+  `12.815x` slower. Code and notes are in `experiments/03_memory-locality/`;
+  raw evidence is in `results/03_memory-locality/2026-08-25-run.md`.
+- Experiment 03 is complete. The owner distinguished the 32 KiB L1 data-cache
+  capacity per physical core from the 64-byte cache-line transfer granularity,
+  concluded that identical arithmetic and output can have very different
+  performance when traversal changes locality, and noted that the exact
+  `12.815x` slowdown depends on this matrix shape, working-set size, compiler
+  setup, and processor rather than applying to every strided workload.
+- The next learning step is to resume the CS149 lecture sequence. For the next
+  lecture, capture one concept the owner understands, one unclear or
+  counterintuitive point, and one AI-infrastructure connection before deriving
+  another experiment. Experiment 04 has not been defined or started.
 - CUDA asynchronous wall-clock timing is a recorded later follow-up; it is not
   the immediate next experiment because GPU architecture appears later in the
   course sequence.

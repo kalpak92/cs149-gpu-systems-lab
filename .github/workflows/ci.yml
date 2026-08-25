@@ -40,6 +40,7 @@ jobs:
           bash -n experiments/00_machine-baseline/sample_gpu_state.sh
           bash -n experiments/01_cpu-thread-scaling/run_experiment.sh
           bash -n experiments/02_simd-vectorization/run_experiment.sh
+          bash -n experiments/03_memory-locality/run_experiment.sh
 
       - name: Validate C++ and OpenMP syntax
         run: |
@@ -59,6 +60,14 @@ jobs:
             -Wpedantic \
             -fsyntax-only \
             experiments/02_simd-vectorization/simd_vectorization.cpp
+          g++ \
+            -std=c++20 \
+            -fopenmp \
+            -Wall \
+            -Wextra \
+            -Wpedantic \
+            -fsyntax-only \
+            experiments/03_memory-locality/memory_locality.cpp
 
       - name: Validate repository documentation
         run: python scripts/validate_repository.py
@@ -107,3 +116,13 @@ jobs:
           cmp \
             docs/assets/simd-scalar-vs-packed-fma.svg \
             "${RUNNER_TEMP}/simd-scalar-vs-packed-fma.svg"
+          node .agents/skills/pretty-mermaid/scripts/render.mjs \
+            --input docs/diagrams/memory-locality-traversal.mmd \
+            --output "${RUNNER_TEMP}/memory-locality-traversal.svg" \
+            --theme zinc-light \
+            --font sans-serif \
+            --node-spacing 18 \
+            --layer-spacing 30
+          cmp \
+            docs/assets/memory-locality-traversal.svg \
+            "${RUNNER_TEMP}/memory-locality-traversal.svg"

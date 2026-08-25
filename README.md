@@ -32,8 +32,9 @@ Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows
 | Experiment 00 — Machine baseline | Complete | [Experiment](experiments/00_machine-baseline/README.md) · [Raw evidence](results/00_machine-baseline/2026-08-19-rerun.md) |
 | Experiment 01 — CPU thread scaling | Complete | [Experiment](experiments/01_cpu-thread-scaling/README.md) · [Raw evidence](results/01_cpu-thread-scaling/2026-08-23-run.md) |
 | Experiment 02 — SIMD vectorization | Complete | [Experiment](experiments/02_simd-vectorization/README.md) · [Raw evidence](results/02_simd-vectorization/2026-08-23-run.md) |
+| Experiment 03 — Memory locality | Complete | [Experiment](experiments/03_memory-locality/README.md) · [Raw evidence](results/03_memory-locality/2026-08-25-run.md) |
 | GPU Python environment | Validated on the host T4 | [Environment record](docs/environment.md) |
-| Next step | Define Experiment 03 — memory locality | Record one narrow question, prediction, and falsification criterion before implementation |
+| Next step | Resume lecture learning | Study the next CS149 lecture and capture one understood point, one unclear or counterintuitive point, and one AI-infrastructure connection before deriving another experiment |
 
 ## Reproduce the GPU Python environment
 

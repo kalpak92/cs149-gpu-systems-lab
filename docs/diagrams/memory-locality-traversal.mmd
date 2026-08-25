@@ -1,0 +1,37 @@
+flowchart TB
+    LAYOUT["Same row-major matrix and same arithmetic<br/>1,000,000 rows x 16 float32 columns"]
+    LINE["One aligned logical row = one 64-byte cache line<br/>16 floats x 4 bytes = 64 bytes"]
+
+    subgraph rowmajor["Baseline - row-major traversal"]
+        direction LR
+        RLOAD["Fetch row 0 cache line"]
+        RUSE["Use f0, f1, f2, ... f15<br/>all sixteen values"]
+        RNEXT["Move to row 1<br/>and its next cache line"]
+
+        RLOAD --> RUSE
+        RUSE --> RNEXT
+    end
+
+    subgraph columnmajor["Controlled change - column-major traversal"]
+        direction LR
+        C0["Column 0 pass<br/>row 0 f0"]
+        C1["row 1 f0"]
+        CM["continue through<br/>one million rows"]
+        CRETURN["Column 1 pass<br/>return later for row 0 f1"]
+        CRELOAD["Earlier line may no longer be cached<br/>fetch it again"]
+
+        C0 --> C1
+        C1 --> CM
+        CM --> CRETURN
+        CRETURN --> CRELOAD
+    end
+
+    MODEL["Simple traffic model<br/>row-major uses sixteen values per fetched line<br/>column-major may use one value per line per pass"]
+    FIXED["Still fixed in both paths<br/>one CPU thread, scalar code, same values and operations"]
+
+    LAYOUT --> LINE
+    LINE --> RLOAD
+    LINE --> C0
+    rowmajor -.-> MODEL
+    columnmajor -.-> MODEL
+    MODEL --> FIXED
