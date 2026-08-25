@@ -31,8 +31,9 @@ Read [the roadmap](docs/course-roadmap.md) before beginning. Each lab follows
 | Lecture 2 — A Modern Multi-Core Processor | Reviewed | [Working notes](docs/lecture-02.md) |
 | Experiment 00 — Machine baseline | Complete | [Experiment](experiments/00_machine-baseline/README.md) · [Raw evidence](results/00_machine-baseline/2026-08-19-rerun.md) |
 | Experiment 01 — CPU thread scaling | Complete | [Experiment](experiments/01_cpu-thread-scaling/README.md) · [Raw evidence](results/01_cpu-thread-scaling/2026-08-23-run.md) |
+| Experiment 02 — SIMD vectorization | Complete | [Experiment](experiments/02_simd-vectorization/README.md) · [Raw evidence](results/02_simd-vectorization/2026-08-23-run.md) |
 | GPU Python environment | Validated on the host T4 | [Environment record](docs/environment.md) |
-| Next step | Define Experiment 02 — SIMD/vectorization | Record the prediction and falsification criterion before implementation |
+| Next step | Define Experiment 03 — memory locality | Record one narrow question, prediction, and falsification criterion before implementation |
 
 ## Reproduce the GPU Python environment
 

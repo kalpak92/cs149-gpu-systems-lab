@@ -93,7 +93,7 @@ written in the owner's voice. The series should be a technical narrative (for
 example, “Learning AI Infrastructure from the Metal Up”), not chronological
 lecture summaries.
 
-## Current checkpoint — 2026-08-23
+## Current checkpoint — 2026-08-25
 
 - Lecture 1 has been reviewed; working notes are in `docs/lecture-01.md`.
 - Lecture 2 has been reviewed in `docs/lecture-02.md`. The owner stated the
@@ -117,10 +117,24 @@ lecture summaries.
   parallelism or guarantee speedup; the favorable result depended on balanced,
   compute-heavy work, static scheduling, and one worker per physical core, and
   should not be generalized to memory-bound, imbalanced, or synchronized work.
-- The next learning step is to define Experiment 02: run the same loop at one
-  OpenMP thread with compiler vectorization enabled versus disabled. Record the
-  owner's prediction and what would change their mind before implementation.
-  Memory locality remains a separate Experiment 03.
+- Experiment 02 compiled the same 128-stage loop twice at one OpenMP thread.
+  The scalar baseline disabled the loop vectorizer; the changed binary enabled
+  it. The owner predicted approximately `8x`, with less than `4x` and more than
+  `8x` as the pre-recorded thresholds. Compiler reports and disassembly showed
+  scalar `vfmadd132ss` instructions versus 256-bit packed `vfmadd132ps`
+  instructions, correctness passed, and the measured median speedup was
+  `7.881x`. Code and notes are in `experiments/02_simd-vectorization/`; raw
+  evidence is in `results/02_simd-vectorization/2026-08-23-run.md`.
+- Experiment 02 is complete. The owner concluded that eight float lanes
+  produced nearly eight times the throughput and made it concrete that one
+  instruction stream can process several independent elements. They also
+  distinguished this from Experiment 01's separate worker instruction streams
+  on multiple cores and noted that dependencies, branches, irregular memory
+  access, or memory-bandwidth pressure can prevent an eight-lane instruction
+  from producing `8x` application speedup.
+- The next learning step is to define one narrow Experiment 03 question about
+  memory locality. Record the owner's prediction and what would change their
+  mind before implementation; do not start from a finished implementation.
 - CUDA asynchronous wall-clock timing is a recorded later follow-up; it is not
   the immediate next experiment because GPU architecture appears later in the
   course sequence.

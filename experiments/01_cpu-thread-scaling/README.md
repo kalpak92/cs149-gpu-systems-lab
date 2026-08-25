@@ -31,6 +31,14 @@ fixed input
     `-- chunk 3 --> worker 3 --> physical core
 ```
 
+![One-thread baseline versus eight-thread OpenMP execution](../../docs/assets/cpu-thread-scaling.svg)
+
+The baseline worker processes the entire loop itself. In the eight-thread run,
+static scheduling assigns disjoint iteration chunks to eight workers, and each
+worker follows its own instruction stream on a distinct physical-core place.
+The implicit barrier at the end means the loop is complete only after every
+worker finishes its assigned chunk.
+
 If the work is evenly divisible and no other resource becomes limiting, more
 cores can finish it sooner. Perfect scaling is not guaranteed: workers must be
 started and coordinated, CPU frequency may change with the number of active

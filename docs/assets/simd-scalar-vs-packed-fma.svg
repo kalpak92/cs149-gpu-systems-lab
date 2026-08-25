@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 811.3629999999999 698.6000000000001" width="811.3629999999999" height="698.6000000000001" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<style>
+
+  text { font-family: 'sans-serif', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="scalar" data-label="vfmadd132ss - scalar single-precision">
+  <rect x="40" y="40" width="472.013" height="257.40000000000003" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="40" width="472.013" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">vfmadd132ss - scalar single-precision</text>
+</g>
+<g class="subgraph" data-id="packed" data-label="vfmadd132ps with YMM registers - packed single-precision">
+  <rect x="40" y="317.40000000000003" width="731.3629999999999" height="257.40000000000003" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="317.40000000000003" width="731.3629999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="331.40000000000003" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">vfmadd132ps with YMM registers - packed single-precision</text>
+</g>
+<polyline class="edge" data-from="packed" data-to="WIDTH" data-style="dotted" data-arrow-start="false" data-arrow-end="true" points="283.7876666666666,574.8000000000001 283.7876666666666,592.8000000000001 253.99724999999995,592.8000000000001 253.99724999999995,604.8000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="packed" data-to="THREAD" data-style="dotted" data-arrow-start="false" data-arrow-end="true" points="527.5753333333332,574.8000000000001 527.5753333333332,592.8000000000001 557.3657499999999,592.8000000000001 557.3657499999999,604.8000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SA" data-to="SFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="184.647,254.50000000000003 196.647,254.5 196.647,196.15 214.647,196.15" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SB" data-to="SFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="184.647,182.70000000000002 214.647,182.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SC" data-to="SFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="184.647,110.9 196.647,110.9 196.647,169.25 214.647,169.25" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SFMA" data-to="SR" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="387.013,182.70000000000002 417.013,182.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PA" data-to="PFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="263.93399999999997,531.9000000000001 275.93399999999997,531.9000000000001 275.93399999999997,473.55000000000007 293.93399999999997,473.55000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PB" data-to="PFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="263.93399999999997,460.1 293.93399999999997,460.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PC" data-to="PFMA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="263.93399999999997,388.30000000000007 275.93399999999997,388.30000000000007 275.93399999999997,446.65000000000003 293.93399999999997,446.65000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PFMA" data-to="PR" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="529.285,460.1 559.285,460.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="node" data-id="WIDTH" data-label="Lane count
+256 register bits / 32 bits per float = 8 float lanes" data-shape="rectangle">
+  <rect x="98.16024999999998" y="604.8000000000001" width="311.674" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="253.99724999999995" y="631.7" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="253.99724999999995" dy="-3.9000000000000012">Lane count</tspan><tspan x="253.99724999999995" dy="16.900000000000002">256 register bits / 32 bits per float = 8 float lanes</tspan></text>
+</g>
+<g class="node" data-id="THREAD" data-label="Still one software thread
+SIMD lanes are not eight CPU threads" data-shape="rectangle">
+  <rect x="427.83424999999994" y="604.8000000000001" width="259.063" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="557.3657499999999" y="631.7" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="557.3657499999999" dy="-3.9000000000000012">Still one software thread</tspan><tspan x="557.3657499999999" dy="16.900000000000002">SIMD lanes are not eight CPU threads</tspan></text>
+</g>
+<g class="node" data-id="SA" data-label="A register
+only a0 is used" data-shape="rectangle">
+  <rect x="56" y="227.60000000000002" width="128.647" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="120.3235" y="254.50000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="120.3235" dy="-3.9000000000000012">A register</tspan><tspan x="120.3235" dy="16.900000000000002">only a0 is used</tspan></text>
+</g>
+<g class="node" data-id="SB" data-label="B register
+only b0 is used" data-shape="rectangle">
+  <rect x="56" y="155.8" width="128.647" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="120.3235" y="182.70000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="120.3235" dy="-3.9000000000000012">B register</tspan><tspan x="120.3235" dy="16.900000000000002">only b0 is used</tspan></text>
+</g>
+<g class="node" data-id="SC" data-label="C register
+only c0 is used" data-shape="rectangle">
+  <rect x="56" y="84" width="128.647" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="120.3235" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="120.3235" dy="-3.9000000000000012">C register</tspan><tspan x="120.3235" dy="16.900000000000002">only c0 is used</tspan></text>
+</g>
+<g class="node" data-id="SFMA" data-label="One floating-point FMA
+r0 = a0 x b0 + c0" data-shape="rectangle">
+  <rect x="214.647" y="155.8" width="172.36599999999999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="300.83" y="182.70000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="300.83" dy="-3.9000000000000012">One floating-point FMA</tspan><tspan x="300.83" dy="16.900000000000002">r0 = a0 x b0 + c0</tspan></text>
+</g>
+<g class="node" data-id="SR" data-label="Result
+r0" data-shape="rectangle">
+  <rect x="417.013" y="155.8" width="79" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="456.513" y="182.70000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="456.513" dy="-3.9000000000000012">Result</tspan><tspan x="456.513" dy="16.900000000000002">r0</tspan></text>
+</g>
+<g class="node" data-id="PA" data-label="256-bit register A
+a7 | a6 | a5 | a4 | a3 | a2 | a1 | a0" data-shape="rectangle">
+  <rect x="56" y="505.00000000000006" width="207.934" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="159.96699999999998" y="531.9000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="159.96699999999998" dy="-3.9000000000000012">256-bit register A</tspan><tspan x="159.96699999999998" dy="16.900000000000002">a7 | a6 | a5 | a4 | a3 | a2 | a1 | a0</tspan></text>
+</g>
+<g class="node" data-id="PB" data-label="256-bit register B
+b7 | b6 | b5 | b4 | b3 | b2 | b1 | b0" data-shape="rectangle">
+  <rect x="56" y="433.20000000000005" width="207.934" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="159.96699999999998" y="460.1" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="159.96699999999998" dy="-3.9000000000000012">256-bit register B</tspan><tspan x="159.96699999999998" dy="16.900000000000002">b7 | b6 | b5 | b4 | b3 | b2 | b1 | b0</tspan></text>
+</g>
+<g class="node" data-id="PC" data-label="256-bit register C
+c7 | c6 | c5 | c4 | c3 | c2 | c1 | c0" data-shape="rectangle">
+  <rect x="56" y="361.40000000000003" width="207.934" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="159.96699999999998" y="388.3" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="159.96699999999998" dy="-3.9000000000000012">256-bit register C</tspan><tspan x="159.96699999999998" dy="16.900000000000002">c7 | c6 | c5 | c4 | c3 | c2 | c1 | c0</tspan></text>
+</g>
+<g class="node" data-id="PFMA" data-label="One packed FMA instruction
+each lane computes ri = ai x bi + ci" data-shape="rectangle">
+  <rect x="293.93399999999997" y="433.20000000000005" width="235.35099999999994" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="411.6094999999999" y="460.1" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="411.6094999999999" dy="-3.9000000000000012">One packed FMA instruction</tspan><tspan x="411.6094999999999" dy="16.900000000000002">each lane computes ri = ai x bi + ci</tspan></text>
+</g>
+<g class="node" data-id="PR" data-label="256-bit result register
+r7 | r6 | r5 | r4 | r3 | r2 | r1 | r0" data-shape="rectangle">
+  <rect x="559.285" y="433.20000000000005" width="196.078" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="657.324" y="460.1" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="657.324" dy="-3.9000000000000012">256-bit result register</tspan><tspan x="657.324" dy="16.900000000000002">r7 | r6 | r5 | r4 | r3 | r2 | r1 | r0</tspan></text>
+</g>
+</svg>

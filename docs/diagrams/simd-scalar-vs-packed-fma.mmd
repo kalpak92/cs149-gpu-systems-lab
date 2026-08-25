@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph scalar["vfmadd132ss - scalar single-precision"]
+        direction LR
+        SA["A register<br/>only a0 is used"]
+        SB["B register<br/>only b0 is used"]
+        SC["C register<br/>only c0 is used"]
+        SFMA["One floating-point FMA<br/>r0 = a0 x b0 + c0"]
+        SR["Result<br/>r0"]
+
+        SA --> SFMA
+        SB --> SFMA
+        SC --> SFMA
+        SFMA --> SR
+    end
+
+    subgraph packed["vfmadd132ps with YMM registers - packed single-precision"]
+        direction LR
+        PA["256-bit register A<br/>a7 | a6 | a5 | a4 | a3 | a2 | a1 | a0"]
+        PB["256-bit register B<br/>b7 | b6 | b5 | b4 | b3 | b2 | b1 | b0"]
+        PC["256-bit register C<br/>c7 | c6 | c5 | c4 | c3 | c2 | c1 | c0"]
+        PFMA["One packed FMA instruction<br/>each lane computes ri = ai x bi + ci"]
+        PR["256-bit result register<br/>r7 | r6 | r5 | r4 | r3 | r2 | r1 | r0"]
+
+        PA --> PFMA
+        PB --> PFMA
+        PC --> PFMA
+        PFMA --> PR
+    end
+
+    WIDTH["Lane count<br/>256 register bits / 32 bits per float = 8 float lanes"]
+    THREAD["Still one software thread<br/>SIMD lanes are not eight CPU threads"]
+
+    packed -.-> WIDTH
+    packed -.-> THREAD

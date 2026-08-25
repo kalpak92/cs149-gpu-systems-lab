@@ -1,0 +1,47 @@
+flowchart TB
+    SAME["Same fixed input and same compiled loop<br/>only the requested OpenMP thread count changes"]
+
+    subgraph baseline["Baseline - one OpenMP worker"]
+        direction TB
+        BW["Worker 0<br/>one independent instruction stream"]
+        BC["Physical-core place 0"]
+        BALL["Processes every loop chunk<br/>one chunk after another"]
+        BT["Median time<br/>0.973131 seconds"]
+
+        BW --> BC
+        BC --> BALL
+        BALL --> BT
+    end
+
+    subgraph parallel["Changed run - eight OpenMP workers"]
+        direction TB
+        SPLIT["Static scheduling<br/>divide independent iterations into eight chunks"]
+        W0["chunk 0<br/>worker 0<br/>core place 0"]
+        W1["chunk 1<br/>worker 1<br/>core place 1"]
+        W2["chunk 2<br/>worker 2<br/>core place 2"]
+        WM["chunks 3 through 6<br/>workers 3 through 6<br/>core places 3 through 6"]
+        W7["chunk 7<br/>worker 7<br/>core place 7"]
+        JOIN["Implicit barrier<br/>all workers must finish"]
+        PT["Median time<br/>0.122185 seconds"]
+
+        SPLIT --> W0
+        SPLIT --> W1
+        SPLIT --> W2
+        SPLIT --> WM
+        SPLIT --> W7
+        W0 --> JOIN
+        W1 --> JOIN
+        W2 --> JOIN
+        WM --> JOIN
+        W7 --> JOIN
+        JOIN --> PT
+    end
+
+    RESULT["Observed speedup<br/>0.973131 / 0.122185 = 7.964x"]
+    DISTINCTION["Thread-level parallelism<br/>separate workers and instruction streams<br/>not SIMD lanes"]
+
+    SAME --> BW
+    SAME --> SPLIT
+    BT --> RESULT
+    PT --> RESULT
+    parallel -.-> DISTINCTION

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1256.567 658.6" width="1256.567" height="658.6" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<style>
+
+  text { font-family: 'sans-serif', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="baseline" data-label="Baseline - one OpenMP worker">
+  <rect x="938.8420000000001" y="163.60000000000002" width="277.7249999999999" height="348.3" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="938.8420000000001" y="163.60000000000002" width="277.7249999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="950.8420000000001" y="177.60000000000002" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Baseline - one OpenMP worker</text>
+</g>
+<g class="subgraph" data-id="parallel" data-label="Changed run - eight OpenMP workers">
+  <rect x="183.24" y="123.80000000000001" width="737.6020000000001" height="394.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="183.24" y="123.80000000000001" width="737.6020000000001" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="195.24" y="137.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Changed run - eight OpenMP workers</text>
+</g>
+<polyline class="edge" data-from="parallel" data-to="DISTINCTION" data-style="dotted" data-arrow-start="false" data-arrow-end="true" points="183.24,517.9000000000001 183.23999999999998,544.9000000000001" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SAME" data-to="BW" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="798.5707500000001,93.80000000000001 798.5707500000001,111.80000000000001 1077.7045,111.80000000000001 1077.7045,207.60000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SAME" data-to="SPLIT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="798.5707500000001,93.80000000000001 798.5707500000001,111.80000000000001 519.437,111.80000000000001 519.437,167.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="BT" data-to="RESULT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1077.7045,498.90000000000003 1077.7045,521.9000000000001 1045.3953333333334,521.9000000000001 1045.3953333333334,544.9000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PT" data-to="RESULT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.4369999999999,498.90000000000003 519.4369999999999,521.9000000000001 1045.3953333333334,521.9000000000001 1045.3953333333334,544.9000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="BW" data-to="BC" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1077.7045,261.40000000000003 1077.7045,291.40000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="BC" data-to="BALL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1077.7045,328.30000000000007 1077.7045,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="BALL" data-to="BT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1077.7045,415.1 1077.7045,445.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SPLIT" data-to="W0" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,221.60000000000002 519.437,239.60000000000002 389.092,239.60000000000002 389.092,257.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SPLIT" data-to="W1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,221.60000000000002 519.437,239.60000000000002 519.437,239.60000000000002 519.437,257.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SPLIT" data-to="W2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,221.60000000000002 519.437,239.60000000000002 649.782,239.60000000000002 649.782,257.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SPLIT" data-to="WM" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,221.60000000000002 519.437,239.60000000000002 814.9540000000001,239.60000000000002 814.9540000000001,257.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SPLIT" data-to="W7" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,221.60000000000002 519.437,239.60000000000002 256.524,239.60000000000002 256.524,257.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="W0" data-to="JOIN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="389.092,328.3 389.092,344.80000000000007 519.437,344.80000000000007 519.437,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="W1" data-to="JOIN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,328.3 519.437,344.80000000000007 519.437,344.80000000000007 519.437,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="W2" data-to="JOIN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="649.782,328.3 649.782,344.80000000000007 519.437,344.80000000000007 519.437,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="WM" data-to="JOIN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="814.9540000000001,328.3 814.9540000000001,344.80000000000007 519.437,344.80000000000007 519.437,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="W7" data-to="JOIN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="256.524,328.3 256.524,344.80000000000007 519.437,344.80000000000007 519.437,361.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="JOIN" data-to="PT" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="519.437,415.1000000000001 519.437,445.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="node" data-id="SAME" data-label="Same fixed input and same compiled loop
+only the requested OpenMP thread count changes" data-shape="rectangle">
+  <rect x="631.9892500000001" y="40" width="333.16299999999995" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="798.5707500000001" y="66.9" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="798.5707500000001" dy="-3.9000000000000012">Same fixed input and same compiled loop</tspan><tspan x="798.5707500000001" dy="16.900000000000002">only the requested OpenMP thread count changes</tspan></text>
+</g>
+<g class="node" data-id="RESULT" data-label="Observed speedup
+0.973131 / 0.122185 = 7.964x" data-shape="rectangle">
+  <rect x="948.4678333333334" y="544.9000000000001" width="193.855" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1045.3953333333334" y="571.8000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1045.3953333333334" dy="-3.9000000000000012">Observed speedup</tspan><tspan x="1045.3953333333334" dy="16.900000000000002">0.973131 / 0.122185 = 7.964x</tspan></text>
+</g>
+<g class="node" data-id="DISTINCTION" data-label="Thread-level parallelism
+separate workers and instruction streams
+not SIMD lanes" data-shape="rectangle">
+  <rect x="40" y="544.9000000000001" width="286.47999999999996" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="183.23999999999998" y="580.2500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="183.23999999999998" dy="-12.350000000000001">Thread-level parallelism</tspan><tspan x="183.23999999999998" dy="16.900000000000002">separate workers and instruction streams</tspan><tspan x="183.23999999999998" dy="16.900000000000002">not SIMD lanes</tspan></text>
+</g>
+<g class="node" data-id="BW" data-label="Worker 0
+one independent instruction stream" data-shape="rectangle">
+  <rect x="954.8420000000001" y="207.60000000000002" width="245.72499999999994" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1077.7045" y="234.50000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1077.7045" dy="-3.9000000000000012">Worker 0</tspan><tspan x="1077.7045" dy="16.900000000000002">one independent instruction stream</tspan></text>
+</g>
+<g class="node" data-id="BC" data-label="Physical-core place 0" data-shape="rectangle">
+  <rect x="992.633" y="291.40000000000003" width="170.14299999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1077.7045" y="309.85" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Physical-core place 0</text>
+</g>
+<g class="node" data-id="BALL" data-label="Processes every loop chunk
+one chunk after another" data-shape="rectangle">
+  <rect x="971.144" y="361.30000000000007" width="213.121" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1077.7045" y="388.20000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1077.7045" dy="-3.9000000000000012">Processes every loop chunk</tspan><tspan x="1077.7045" dy="16.900000000000002">one chunk after another</tspan></text>
+</g>
+<g class="node" data-id="BT" data-label="Median time
+0.973131 seconds" data-shape="rectangle">
+  <rect x="1006.7120000000001" y="445.1" width="141.985" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1077.7045" y="472" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1077.7045" dy="-3.9000000000000012">Median time</tspan><tspan x="1077.7045" dy="16.900000000000002">0.973131 seconds</tspan></text>
+</g>
+<g class="node" data-id="SPLIT" data-label="Static scheduling
+divide independent iterations into eight chunks" data-shape="rectangle">
+  <rect x="364.7115" y="167.8" width="309.45099999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="519.437" y="194.70000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="519.437" dy="-3.9000000000000012">Static scheduling</tspan><tspan x="519.437" dy="16.900000000000002">divide independent iterations into eight chunks</tspan></text>
+</g>
+<g class="node" data-id="W0" data-label="chunk 0
+worker 0
+core place 0" data-shape="rectangle">
+  <rect x="331.808" y="257.6" width="114.568" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="389.092" y="292.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="389.092" dy="-12.350000000000001">chunk 0</tspan><tspan x="389.092" dy="16.900000000000002">worker 0</tspan><tspan x="389.092" dy="16.900000000000002">core place 0</tspan></text>
+</g>
+<g class="node" data-id="W1" data-label="chunk 1
+worker 1
+core place 1" data-shape="rectangle">
+  <rect x="464.376" y="257.6" width="110.122" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="519.437" y="292.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="519.437" dy="-12.350000000000001">chunk 1</tspan><tspan x="519.437" dy="16.900000000000002">worker 1</tspan><tspan x="519.437" dy="16.900000000000002">core place 1</tspan></text>
+</g>
+<g class="node" data-id="W2" data-label="chunk 2
+worker 2
+core place 2" data-shape="rectangle">
+  <rect x="592.498" y="257.6" width="114.568" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="649.782" y="292.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="649.782" dy="-12.350000000000001">chunk 2</tspan><tspan x="649.782" dy="16.900000000000002">worker 2</tspan><tspan x="649.782" dy="16.900000000000002">core place 2</tspan></text>
+</g>
+<g class="node" data-id="WM" data-label="chunks 3 through 6
+workers 3 through 6
+core places 3 through 6" data-shape="rectangle">
+  <rect x="725.066" y="257.6" width="179.776" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="814.9540000000001" y="292.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="814.9540000000001" dy="-12.350000000000001">chunks 3 through 6</tspan><tspan x="814.9540000000001" dy="16.900000000000002">workers 3 through 6</tspan><tspan x="814.9540000000001" dy="16.900000000000002">core places 3 through 6</tspan></text>
+</g>
+<g class="node" data-id="W7" data-label="chunk 7
+worker 7
+core place 7" data-shape="rectangle">
+  <rect x="199.24" y="257.6" width="114.568" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="256.524" y="292.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="256.524" dy="-12.350000000000001">chunk 7</tspan><tspan x="256.524" dy="16.900000000000002">worker 7</tspan><tspan x="256.524" dy="16.900000000000002">core place 7</tspan></text>
+</g>
+<g class="node" data-id="JOIN" data-label="Implicit barrier
+all workers must finish" data-shape="rectangle">
+  <rect x="434.3655" y="361.30000000000007" width="170.14299999999997" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="519.437" y="388.20000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="519.437" dy="-3.9000000000000012">Implicit barrier</tspan><tspan x="519.437" dy="16.900000000000002">all workers must finish</tspan></text>
+</g>
+<g class="node" data-id="PT" data-label="Median time
+0.122185 seconds" data-shape="rectangle">
+  <rect x="448.44449999999995" y="445.1" width="141.985" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="519.4369999999999" y="472" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="519.4369999999999" dy="-3.9000000000000012">Median time</tspan><tspan x="519.4369999999999" dy="16.900000000000002">0.122185 seconds</tspan></text>
+</g>
+</svg>
