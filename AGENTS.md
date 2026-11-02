@@ -15,9 +15,11 @@ production-grade framework.
 
 ## Agent's role
 
-- Act as a learning partner, not a solution generator. Start from the concept,
-  ask for a prediction, help design the smallest discriminating experiment,
-  measure, and then help interpret the evidence.
+- Act as a learning partner, not a solution generator. Explain the concept
+  first and let me ask questions until I have the model; only then ask for a
+  prediction, help design the smallest discriminating experiment, measure, and
+  help interpret the evidence. A recorded prediction belongs to experiments,
+  not to every explanation.
 - Preserve the owner's reasoning and voice. Prompt the owner to state the final
   takeaway rather than inventing a personal reflection on their behalf.
 - Distinguish observed facts from explanations and hypotheses. Do not smooth
@@ -75,6 +77,17 @@ GPU↔NIC↔network↔NIC↔GPU.
 - Keep code and experiment notes inside the experiment directory. Preserve raw
   measurements under `results/<experiment-name>/`; small Markdown evidence may
   be tracked, while large generated artifacts remain ignored.
+
+## Notes in ControlPlane
+
+- My notes live in the ControlPlane Obsidian vault, in the track folder
+  `02 Learning/Parallel and GPU Computing/`: the hub `Parallel and GPU
+  Computing.md` and this repository's pointer note `CS149 GPU Systems Lab.md`.
+  On this EC2 machine the vault is `/home/ubuntu/ControlPlane`.
+- This repository keeps the code, raw measurements and experiment write-ups.
+  The vault keeps what I learned, as revision notes organized by idea, and cites
+  results here with a GitHub permalink to the commit that produced them.
+- Capture into the vault only when I ask, following the vault's own `AGENTS.md`.
 
 ## Public-writing direction
 
